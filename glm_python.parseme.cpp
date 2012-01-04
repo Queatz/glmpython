@@ -400,12 +400,13 @@ static
 PyObject * glm_${type}Iterator_tp_iternext(PyObject *self) {
 	PyObject *result;
 	glm_${type}Iterator *iter = (glm_${type}Iterator *)self;
-	Py_ssize_t len = PyObject_Size(iter->obj);
 	
 	if(iter->obj == NULL) {
 		PyErr_SetString(PyExc_TypeError, "${type.capitalize()} is invalid.");
 		return NULL;
 	}
+	
+	Py_ssize_t len = PyObject_Size(iter->obj);
 	
 	if(len < 0) {
 		std::string s = "'";
@@ -484,7 +485,7 @@ glm_${type}Iterator_tp_dealloc(glm_${type}Iterator* self)
     Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-PyDoc_STRVAR(glm_${type}Iterator__doc__, "A matrix iterator.");
+PyDoc_STRVAR(glm_${type}Iterator__doc__, "A ${type} iterator.");
 
 static
 PyTypeObject glm_${type}IteratorType = {
