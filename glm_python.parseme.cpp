@@ -189,34 +189,34 @@ PyDoc_STRVAR(glm_${p}mat${n}Type__doc__, "A ${n} matrix.");
 static
 PyTypeObject glm_${p}mat${n}Type = {
 	PyVarObject_HEAD_INIT(NULL, 0)
-	"glm.${p}mat${n}",								/* tp_name */
-	sizeof(glm_${p}mat${n}),						/* tp_basicsize */
+	"glm.${p}mat${n}",										/* tp_name */
+	sizeof(glm_${p}mat${n}),								/* tp_basicsize */
 	0,														/* tp_itemsize */
 	0,														/* tp_dealloc */
 	0,														/* tp_print */
 	0,														/* tp_getattr */
 	0,														/* tp_setattr */
 	0,														/* tp_reserved */
-	(reprfunc)glm_${p}mat${n}_tp_repr,			/* tp_repr */
-	&glm_${p}mat${n}_NumberMethods,				/* tp_as_number */
-	&glm_${p}mat${n}_SequenceMethods,			/* tp_as_sequence */
+	(reprfunc)glm_${p}mat${n}_tp_repr,						/* tp_repr */
+	&glm_${p}mat${n}_NumberMethods,							/* tp_as_number */
+	&glm_${p}mat${n}_SequenceMethods,						/* tp_as_sequence */
 	0,														/* tp_as_mapping */
 	0,														/* tp_hash  */
 	0,														/* tp_call */
 	0,														/* tp_str */
-	PyObject_GenericGetAttr,						/* tp_getattro */
-	PyObject_GenericSetAttr,						/* tp_setattro */
-	&glm_${p}mat${n}_BufferMethods,				/* tp_as_buffer */
+	PyObject_GenericGetAttr,								/* tp_getattro */
+	PyObject_GenericSetAttr,								/* tp_setattro */
+	&glm_${p}mat${n}_BufferMethods,							/* tp_as_buffer */
 	Py_TPFLAGS_DEFAULT |
-	  Py_TPFLAGS_BASETYPE,							/* tp_flags */
-	glm_${p}mat${n}Type__doc__,					/* tp_doc */
+	  Py_TPFLAGS_BASETYPE,									/* tp_flags */
+	glm_${p}mat${n}Type__doc__,								/* tp_doc */
 	0,														/* tp_traverse */
 	0,														/* tp_clear */
 	0,														/* tp_richcompare */
 	0,														/* tp_weaklistoffset */
 	0,														/* tp_iter */
 	0,														/* tp_iternext */
-	glm_${p}mat${n}Methods,							/* tp_methods */
+	glm_${p}mat${n}Methods,									/* tp_methods */
 	0,														/* tp_members */
 	0,														/* tp_getset */
 	0,														/* tp_base */
@@ -224,9 +224,9 @@ PyTypeObject glm_${p}mat${n}Type = {
 	0,														/* tp_descr_get */
 	0,														/* tp_descr_set */
 	0,														/* tp_dictoffset */
-	(initproc)glm_${p}mat${n}_tp_init,			/* tp_init */
+	(initproc)glm_${p}mat${n}_tp_init,						/* tp_init */
 	0,														/* tp_alloc */
-	PyType_GenericNew,								/* tp_new */
+	PyType_GenericNew,										/* tp_new */
 };
 /*$ $*/
 
@@ -352,34 +352,34 @@ PyDoc_STRVAR(glm_${p}vec${n}Type__doc__, "A ${n}D vector.");
 static
 PyTypeObject glm_${p}vec${n}Type = {
 	PyVarObject_HEAD_INIT(NULL, 0)
-	"glm.${p}vec${n}",								/* tp_name */
-	sizeof(glm_${p}vec${n}),						/* tp_basicsize */
+	"glm.${p}vec${n}",										/* tp_name */
+	sizeof(glm_${p}vec${n}),								/* tp_basicsize */
 	0,														/* tp_itemsize */
 	0,														/* tp_dealloc */
 	0,														/* tp_print */
 	0,														/* tp_getattr */
 	0,														/* tp_setattr */
 	0,														/* tp_reserved */
-	(reprfunc)glm_${p}vec${n}_tp_repr,			/* tp_repr */
-	&glm_${p}vec${n}_NumberMethods,				/* tp_as_number */
-	&glm_${p}vec${n}_SequenceMethods,			/* tp_as_sequence */
+	(reprfunc)glm_${p}vec${n}_tp_repr,						/* tp_repr */
+	&glm_${p}vec${n}_NumberMethods,							/* tp_as_number */
+	&glm_${p}vec${n}_SequenceMethods,						/* tp_as_sequence */
 	0,														/* tp_as_mapping */
 	0,														/* tp_hash  */
 	0,														/* tp_call */
 	0,														/* tp_str */
-	(getattrofunc)glm_${p}vec${n}_tp_getattro,/* tp_getattro */
-	(setattrofunc)glm_${p}vec${n}_tp_setattro,/* tp_setattro */
-	&glm_${p}vec${n}_BufferMethods,				/* tp_as_buffer */
+	(getattrofunc)glm_${p}vec${n}_tp_getattro,				/* tp_getattro */
+	(setattrofunc)glm_${p}vec${n}_tp_setattro,				/* tp_setattro */
+	&glm_${p}vec${n}_BufferMethods,							/* tp_as_buffer */
 	Py_TPFLAGS_DEFAULT |
-	  Py_TPFLAGS_BASETYPE,							/* tp_flags */
-	glm_${p}vec${n}Type__doc__,					/* tp_doc */
+	  Py_TPFLAGS_BASETYPE,									/* tp_flags */
+	glm_${p}vec${n}Type__doc__,								/* tp_doc */
 	0,														/* tp_traverse */
 	0,														/* tp_clear */
 	0,														/* tp_richcompare */
 	0,														/* tp_weaklistoffset */
 	0,														/* tp_iter */
 	0,														/* tp_iternext */
-	glm_${p}vec${n}Methods,							/* tp_methods */
+	glm_${p}vec${n}Methods,									/* tp_methods */
 	0,														/* tp_members */
 	0,														/* tp_getset */
 	0,														/* tp_base */
@@ -387,9 +387,9 @@ PyTypeObject glm_${p}vec${n}Type = {
 	0,														/* tp_descr_get */
 	0,														/* tp_descr_set */
 	0,														/* tp_dictoffset */
-	(initproc)glm_${p}vec${n}_tp_init,			/* tp_init */
+	(initproc)glm_${p}vec${n}_tp_init,						/* tp_init */
 	0,														/* tp_alloc */
-	PyType_GenericNew,								/* tp_new */
+	PyType_GenericNew,										/* tp_new */
 };
 /*$ $*/
 /*$ BASETYPEDEF $*/
@@ -447,19 +447,21 @@ int glm_${type}Iterator_tp_init(PyObject *self, PyObject *args, PyObject *kwargs
 	glm_${type}Iterator *real;
 	PyObject *obj;
 	
-	if(!PyArg_ParseTuple(args, "O:${type}Iterator", &obj))
-		return -1;
-	
 	real = (glm_${type}Iterator *)self;
+	real->offset = 0;
 	
-	if(obj == NULL)
+	if(!PyArg_ParseTuple(args, "O:${type}Iterator", &obj)) {
 		real->obj = NULL;
+		return -1;
+	}
+	
+	if(obj == NULL) {
+		real->obj = NULL;
+	}
 	else {
 		Py_INCREF(obj);
 		real->obj = obj;
 	}
-
-	real->offset = 0;
 	
 	return 0;
 }
@@ -490,10 +492,10 @@ PyDoc_STRVAR(glm_${type}Iterator__doc__, "A ${type} iterator.");
 static
 PyTypeObject glm_${type}IteratorType = {
 	PyVarObject_HEAD_INIT(NULL, 0)
-	"glm.${type}Iterator",						/* tp_name */
-	sizeof(glm_${type}Iterator),				/* tp_basicsize */
+	"glm.${type}Iterator",								/* tp_name */
+	sizeof(glm_${type}Iterator),						/* tp_basicsize */
 	0,													/* tp_itemsize */
-	(destructor)glm_${type}Iterator_tp_dealloc,/* tp_dealloc */
+	(destructor)glm_${type}Iterator_tp_dealloc,			/* tp_dealloc */
 	0,													/* tp_print */
 	0,													/* tp_getattr */
 	0,													/* tp_setattr */
@@ -505,17 +507,17 @@ PyTypeObject glm_${type}IteratorType = {
 	0,													/* tp_hash  */
 	0,													/* tp_call */
 	0,													/* tp_str */
-	PyObject_GenericGetAttr,					/* tp_getattro */
-	PyObject_GenericSetAttr,					/* tp_setattro */
+	PyObject_GenericGetAttr,							/* tp_getattro */
+	PyObject_GenericSetAttr,							/* tp_setattro */
 	0,													/* tp_as_buffer */
-	Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,/* tp_flags */
-	glm_${type}Iterator__doc__,					/* tp_doc */
-	(traverseproc)glm_${type}Iterator_tp_clear,/* tp_traverse */
-	(inquiry)glm_${type}Iterator_tp_traverse,/* tp_clear */
+	Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,			/* tp_flags */
+	glm_${type}Iterator__doc__,							/* tp_doc */
+	(traverseproc)glm_${type}Iterator_tp_traverse,		/* tp_traverse */
+	(inquiry)glm_${type}Iterator_tp_clear,				/* tp_clear */
 	0,													/* tp_richcompare */
 	0,													/* tp_weaklistoffset */
-	(getiterfunc)glm_${type}Iterator_tp_iter,/* tp_iter */
-	(iternextfunc)glm_${type}Iterator_tp_iternext,/* tp_iternext */
+	(getiterfunc)glm_${type}Iterator_tp_iter,			/* tp_iter */
+	(iternextfunc)glm_${type}Iterator_tp_iternext,		/* tp_iternext */
 	0,													/* tp_methods */
 	0,													/* tp_members */
 	0,													/* tp_getset */
@@ -524,9 +526,9 @@ PyTypeObject glm_${type}IteratorType = {
 	0,													/* tp_descr_get */
 	0,													/* tp_descr_set */
 	0,													/* tp_dictoffset */
-	(initproc)glm_${type}Iterator_tp_init,	/* tp_init */
+	(initproc)glm_${type}Iterator_tp_init,				/* tp_init */
 	0,													/* tp_alloc */
-	PyType_GenericNew,							/* tp_new */
+	PyType_GenericNew,									/* tp_new */
 };
 /*$ $*/
 
@@ -825,11 +827,6 @@ $?}
 
 /* Definition */
 
-#ifdef MATI
-#undef MATI
-#endif
-#define MATI(i) [i/${rows}][i%${rows}]
-
 static
 PyObject * glm_${p}mat${n}_tp_repr(PyObject *self) {
 	glm::${p}mat${n} *v = &((glm_${p}mat${n} *)self)->mat;
@@ -839,55 +836,9 @@ $?{type == 'float'
 	s.setf(std::ios::fixed);
 $?}
 	s << Py_TYPE(self)->tp_name << "("
-	<< (*v)MATI(0)
-$?{cols * rows > 1
-	<< ", " << (*v)MATI(1)
-$?}
-$?{cols * rows > 2
-	<< ", " << (*v)MATI(2)
-$?}
-$?{cols * rows > 3
-	<< ", " << (*v)MATI(3)
-$?}
-$?{cols * rows > 4
-	<< ", " << (*v)MATI(4)
-$?}
-$?{cols * rows > 5
-	<< ", " << (*v)MATI(5)
-$?}
-$?{cols * rows > 6
-	<< ", " << (*v)MATI(6)
-$?}
-$?{cols * rows > 7
-	<< ", " << (*v)MATI(7)
-$?}
-$?{cols * rows > 8
-	<< ", " << (*v)MATI(8)
-$?}
-$?{cols * rows > 9
-	<< ", " << (*v)MATI(9)
-$?}
-$?{cols * rows > 10
-	<< ", " << (*v)MATI(10)
-$?}
-$?{cols * rows > 11
-	<< ", " << (*v)MATI(11)
-$?}
-$?{cols * rows > 12
-	<< ", " << (*v)MATI(12)
-$?}
-$?{cols * rows > 13
-	<< ", " << (*v)MATI(13)
-$?}
-$?{cols * rows > 14
-	<< ", " << (*v)MATI(14)
-$?}
-$?{cols * rows > 15
-	<< ", " << (*v)MATI(15)
-$?}
-$?{cols * rows > 16
-	<< ", " << (*v)MATI(16)
-$?}
+/*$ {cols * rows} $*/
+	<< ", " << (*v)[${I}/${rows}][${I}%${rows}]
+/*$ $*/
 	<< ")";
 	PyObject *result = PyUnicode_FromString(s.str().c_str());
 	return result;
@@ -1616,16 +1567,9 @@ $?{type == 'float'
 	s.setf(std::ios::fixed);
 $?}
 	s << Py_TYPE(self)->tp_name << "("
-	<< (*v)[0]
-$?{n > 1
-	<< ", " << (*v)[1]
-$?}
-$?{n > 2
-	<< ", " << (*v)[2]
-$?}
-$?{n > 3
-	<< ", " << (*v)[3]
-$?}
+/*$ {n} $*/
+	<< (*v)[${I}]
+/*$ $*/
 	<< ")";
 	PyObject *result = PyUnicode_FromString(s.str().c_str());
 	return result;
@@ -2039,8 +1983,8 @@ PyDoc_STRVAR(glm_${type}Type__doc__, "${doc}");
 static
 PyTypeObject glm_${type}Type = {
 	PyVarObject_HEAD_INIT(NULL, 0)
-	"glm.${type}",									/* tp_name */
-	sizeof(glm_${type}),							/* tp_basicsize */
+	"glm.${type}",										/* tp_name */
+	sizeof(glm_${type}),								/* tp_basicsize */
 	0,													/* tp_itemsize */
 	0,													/* tp_dealloc */
 	0,													/* tp_print */
@@ -2054,17 +1998,17 @@ PyTypeObject glm_${type}Type = {
 	0,													/* tp_hash  */
 	0,													/* tp_call */
 	0,													/* tp_str */
-	PyObject_GenericGetAttr,					/* tp_getattro */
-	PyObject_GenericSetAttr,					/* tp_setattro */
+	PyObject_GenericGetAttr,							/* tp_getattro */
+	PyObject_GenericSetAttr,							/* tp_setattro */
 	0,													/* tp_as_buffer */
 	Py_TPFLAGS_DEFAULT |
-	  Py_TPFLAGS_BASETYPE,						/* tp_flags */
-	glm_${type}Type__doc__,						/* tp_doc */
+	  Py_TPFLAGS_BASETYPE,								/* tp_flags */
+	glm_${type}Type__doc__,								/* tp_doc */
 	0,													/* tp_traverse */
 	0,													/* tp_clear */
 	0,													/* tp_richcompare */
 	0,													/* tp_weaklistoffset */
-	(getiterfunc)glm_${type}_tp_iter,			/* tp_iter */
+	(getiterfunc)glm_${type}_tp_iter,					/* tp_iter */
 	0,													/* tp_iternext */
 	0,													/* tp_methods */
 	0,													/* tp_members */
@@ -2076,7 +2020,7 @@ PyTypeObject glm_${type}Type = {
 	0,													/* tp_dictoffset */
 	0,													/* tp_init */
 	0,													/* tp_alloc */
-	PyType_GenericNew,							/* tp_new */
+	PyType_GenericNew,									/* tp_new */
 };
 /*$ $*/
 
