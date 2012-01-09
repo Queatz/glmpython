@@ -8,7 +8,7 @@
 typedef struct {
 	PyObject_HEAD
 	PyObject *obj;
-	Py_ssize_t ptr;
+	Py_ssize_t offset;
 } glm_${type}Iterator;
 
 typedef struct {

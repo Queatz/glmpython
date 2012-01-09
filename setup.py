@@ -44,6 +44,9 @@ glmParse.add(MATRIX)
 # argsT is the build string
 # availableTo is which types support it
 # path is the glm namespace path
+
+# Matrix Transform
+
 MATRIX_FUNCTION = parseme.Section('MATRIX_FUNCTION')
 MATRIX_FUNCTION.add(parseme.Round(
 	func = 'translate',
@@ -69,6 +72,18 @@ MATRIX_FUNCTION.add(parseme.Round(
 	availableTo = ('4',),
 	path = '::gtc::matrix_transform'
 ))
+
+# Core
+
+MATRIX_FUNCTION.add(parseme.Round(
+	func = 'inverse',
+	func_doc = 'Matrix\'s inverse.',
+	args = (),
+	argsT = '',
+	availableTo = ('2','3','4',),
+	path = ''
+))
+
 glmParse.add(MATRIX_FUNCTION)
 
 # In the VECTOR_FUNCTION section,

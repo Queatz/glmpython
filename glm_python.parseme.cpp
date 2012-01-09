@@ -161,13 +161,13 @@ PyBufferProcs glm_${p}mat${n}_BufferMethods = {
 // ${p}mat${n} Methods
 
 /*$ MATRIX_FUNCTION $*/
-$?{n in availableTo
+$?{availableTo == 'all' or n in availableTo
 static PyObject *glm_${p}mat${n}_function_${func}(PyObject *, PyObject *);
 $?}
 /*$ $*/
 
 /*$ MATRIX_FUNCTION $*/
-$?{n in availableTo
+$?{availableTo == 'all' or n in availableTo
 PyDoc_STRVAR(glm_${p}mat${n}_function_${func}__doc__, "${func_doc}");
 $?}
 /*$ $*/
@@ -175,7 +175,7 @@ $?}
 static
 PyMethodDef glm_${p}mat${n}Methods[] = {
 /*$ MATRIX_FUNCTION $*/
-$?{n in availableTo
+$?{availableTo == 'all' or n in availableTo
 	{"${func}", (PyCFunction) glm_${p}mat${n}_function_${func}, ${'METH_NOARGS' if not args else 'METH_VARARGS'}, glm_${p}mat${n}_function_${func}__doc__},
 $?}
 /*$ $*/
@@ -416,15 +416,15 @@ PyObject * glm_${type}Iterator_tp_iternext(PyObject *self) {
 		return NULL;
 	}
 	
-	if(iter->ptr > len - 1)
+	if(iter->offset > len - 1)
 		return NULL;
 	
-	result = PySequence_GetItem(iter->obj, iter->ptr);
+	result = PySequence_GetItem(iter->obj, iter->offset);
 	
 	if(result == NULL)
 		return NULL;
 	
-	iter->ptr += 1;
+	iter->offset += 1;
 	
 	return result;
 }
@@ -459,7 +459,7 @@ int glm_${type}Iterator_tp_init(PyObject *self, PyObject *args, PyObject *kwargs
 		real->obj = obj;
 	}
 
-	real->ptr = 0;
+	real->offset = 0;
 	
 	return 0;
 }
@@ -2084,7 +2084,7 @@ PyTypeObject glm_${type}Type = {
 
 /*$ MATRIX $*/
 /*$ MATRIX_FUNCTION $*/
-$?{n in availableTo
+$?{availableTo == 'all' or n in availableTo
 static
 PyObject *glm_${p}mat${n}_function_${func}(PyObject *self, PyObject *args) {
 $?{args

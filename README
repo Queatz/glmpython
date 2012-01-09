@@ -1,1 +1,4 @@
 Place the python/ folder right inside the glm directory.
+
+The source relies on Parseme being installed.  Get it here:
+https://github.com/Queatz/Parseme
