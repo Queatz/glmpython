@@ -2,8 +2,6 @@
 
 import parseme
 
-TEST = None
-
 glmParse = parseme.Project()
 
 # In the VECTOR section,
@@ -12,36 +10,27 @@ glmParse = parseme.Project()
 # type is the common type of the vector
 # Make sure to include all three of a type because swizzling relies on them
 VECTOR = parseme.Section('VECTOR')
-VECTOR.add(parseme.Round(p = '', n = 2, type = 'float'))
-VECTOR.add(parseme.Round(p = '', n = 3, type = 'float'))
-VECTOR.add(parseme.Round(p = '', n = 4, type = 'float'))
-VECTOR.add(parseme.Round(p = 'i', n = 2, type = 'int'))
-VECTOR.add(parseme.Round(p = 'i', n = 3, type = 'int'))
-VECTOR.add(parseme.Round(p = 'i', n = 4, type = 'int'))
+for t in (('', 'float'), ('i', 'int')):
+	for n in range(2, 5):
+		VECTOR.add(parseme.Round(p = t[0], n = n, type = t[1]))
 glmParse.add(VECTOR)
 
 # In the MATRIX section,
 # p is a prefix to the name
 # cols and rows is the size of the vector
 # type is the common type of the vector
-# n is 'colsxrows'
+# n is is the name, such as 3x4
 MATRIX = parseme.Section('MATRIX')
-MATRIX.add(parseme.Round(p = '', rows = 2, cols = 2, n = '2', type = 'float'))
-MATRIX.add(parseme.Round(p = '', rows = 2, cols = 3, n = '2x3', type = 'float'))
-MATRIX.add(parseme.Round(p = '', rows = 3, cols = 2, n = '3x2', type = 'float'))
-MATRIX.add(parseme.Round(p = '', rows = 3, cols = 3, n = '3', type = 'float'))
-MATRIX.add(parseme.Round(p = '', rows = 2, cols = 4, n = '2x4', type = 'float'))
-MATRIX.add(parseme.Round(p = '', rows = 4, cols = 2, n = '4x2', type = 'float'))
-MATRIX.add(parseme.Round(p = '', rows = 4, cols = 3, n = '3x4', type = 'float'))
-MATRIX.add(parseme.Round(p = '', rows = 3, cols = 4, n = '4x3', type = 'float'))
-MATRIX.add(parseme.Round(p = '', rows = 4, cols = 4, n = '4', type = 'float'))
+for cols in range(2, 5):
+	for rows in range(2, 5):
+		MATRIX.add(parseme.Round(p = '', rows = rows, cols = cols,
+			n = (str(rows) if rows == cols else str(rows) + 'x' + str(cols)), type = 'float'))
 glmParse.add(MATRIX)
 
 # In the MATRIX_FUNCTION section,
 # func is the name of the function
 # func_doc is the doc string
 # args is the type of arguments
-# argsT is the build string
 # availableTo is which types support it
 # path is the glm namespace path
 
@@ -52,7 +41,6 @@ MATRIX_FUNCTION.add(parseme.Round(
 	func = 'translate',
 	func_doc = 'Translates a 4x4 matrix.',
 	args = ('vec3',),
-	argsT = 'O',
 	availableTo = ('4',),
 	path = '::gtc::matrix_transform'
 ))
@@ -60,7 +48,6 @@ MATRIX_FUNCTION.add(parseme.Round(
 	func = 'rotate',
 	func_doc = 'Rotates a 4x4 matrix.',
 	args = (float, 'vec3',),
-	argsT = 'fO',
 	availableTo = ('4',),
 	path = '::gtc::matrix_transform'
 ))
@@ -68,7 +55,6 @@ MATRIX_FUNCTION.add(parseme.Round(
 	func = 'scale',
 	func_doc = 'Scales a 4x4 matrix.',
 	args = ('vec3',),
-	argsT = 'O',
 	availableTo = ('4',),
 	path = '::gtc::matrix_transform'
 ))
@@ -168,10 +154,7 @@ BASETYPEDEF.add(parseme.Round(type = 'Vector', doc = 'This is a basic vector typ
 BASETYPEDEF.add(parseme.Round(type = 'Matrix', doc = 'A matrix.'))
 glmParse.add(BASETYPEDEF)
 
-if glmParse.parse(*(['test.parseme.cpp'] if TEST else ['glm_python.parseme.hpp', 'glm_python.parseme.cpp'])) > 0:
-	raise SystemExit
-
-if TEST is not None:
+if glmParse.parse('glm_python.parseme.hpp', 'glm_python.parseme.cpp') > 0:
 	raise SystemExit
 
 import shutil, os
