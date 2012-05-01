@@ -42,21 +42,21 @@ MATRIX_FUNCTION.add(parseme.Round(
 	func_doc = 'Translates a 4x4 matrix.',
 	args = ('vec3',),
 	availableTo = ('4',),
-	path = '::gtc::matrix_transform'
+	path = ''
 ))
 MATRIX_FUNCTION.add(parseme.Round(
 	func = 'rotate',
 	func_doc = 'Rotates a 4x4 matrix.',
 	args = (float, 'vec3',),
 	availableTo = ('4',),
-	path = '::gtc::matrix_transform'
+	path = ''
 ))
 MATRIX_FUNCTION.add(parseme.Round(
 	func = 'scale',
 	func_doc = 'Scales a 4x4 matrix.',
 	args = ('vec3',),
 	availableTo = ('4',),
-	path = '::gtc::matrix_transform'
+	path = ''
 ))
 
 # Core
@@ -88,7 +88,7 @@ glmParse.add(VECTOR_FUNCTION)
 # type is the argument type
 # p is the short name of the in type, used to build value
 # base the base type of the return
-# path is the path to the function, i.e. ::gtc::matrix_transform
+# path is the path to the function, i.e. 
 NUMBER_FUNCTION = parseme.Section('NUMBER_FUNCTION')
 
 NUMBER_FUNCTION.add(
@@ -101,7 +101,7 @@ NUMBER_FUNCTION.add(
 		type = 'float',
 		p = 'f',
 		base = 'mat',
-		path = '::gtc::matrix_transform'
+		path = ''
 	)
 )
 
@@ -115,7 +115,7 @@ NUMBER_FUNCTION.add(
 		type = 'float',
 		p = 'f',
 		base = 'mat',
-		path = '::gtc::matrix_transform'
+		path = ''
 	)
 )
 
@@ -129,7 +129,7 @@ NUMBER_FUNCTION.add(
 		type = 'float',
 		p = 'f',
 		base = 'mat',
-		path = '::gtc::matrix_transform'
+		path = ''
 	)
 )
 
@@ -143,7 +143,7 @@ NUMBER_FUNCTION.add(
 		type = 'float',
 		p = 'f',
 		base = 'mat',
-		path = '::gtc::matrix_transform'
+		path = ''
 	)
 )
 

@@ -32,7 +32,7 @@ static int glm_${p}mat${n}_sq_ass_item(PyObject *, Py_ssize_t, PyObject *);
 static PyObject *glm_${p}mat${n}_tp_repr(PyObject *);
 static int glm_${p}mat${n}_tp_init(PyObject *, PyObject *, PyObject *);
 
-int glm_${p}mat${n}_bf_getbuffer(PyObject *, Py_buffer *, int);
+static int glm_${p}mat${n}_bf_getbuffer(PyObject *, Py_buffer *, int);
 /*$ $*/
 /*$ VECTOR $*/
 
@@ -90,7 +90,7 @@ static PyObject *glm_${p}vec${n}_tp_getattro(PyObject *, PyObject *);
 static int glm_${p}vec${n}_tp_setattro(PyObject *, PyObject *, PyObject *);
 static int glm_${p}vec${n}_tp_init(PyObject *, PyObject *, PyObject *);
 
-int glm_${p}vec${n}_bf_getbuffer(PyObject *, Py_buffer *, int);
+static int glm_${p}vec${n}_bf_getbuffer(PyObject *, Py_buffer *, int);
 /*$ $*/
 
 /* * * Types * * */
