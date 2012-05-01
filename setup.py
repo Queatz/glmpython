@@ -170,6 +170,3 @@ setup(name='glm',
       url='http://glm.g-truc.net/',
       ext_modules=[glm]
 )
-
-shutil.copyfile('build/lib.linux-x86_64-3.2/glm.cpython-32mu.so', 'glm.so')
-#os.remove('glm_python.cpp')
