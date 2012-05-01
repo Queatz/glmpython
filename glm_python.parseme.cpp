@@ -182,7 +182,7 @@ $?}
 	{NULL, NULL},
 };
 
-PyDoc_STRVAR(glm_${p}mat${n}Type__doc__, "A ${n} matrix.");
+PyDoc_STRVAR(glm_${p}mat${n}Type__doc__, "A ${n if len(n) > 1 else n + 'x' + n} matrix.");
 
 // ${p}mat${n} Object
 
@@ -345,7 +345,7 @@ PyMethodDef glm_${p}vec${n}Methods[] = {
 	{NULL, NULL},
 };
 
-PyDoc_STRVAR(glm_${p}vec${n}Type__doc__, "A ${n}D vector.");
+PyDoc_STRVAR(glm_${p}vec${n}Type__doc__, "A ${n}D${' integer' if type == 'int' else ''} vector.");
 
 // ${p}vec${n} Object
 
