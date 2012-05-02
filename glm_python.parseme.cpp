@@ -810,7 +810,6 @@ PyObject * glm_${p}mat${n}_tp_repr(PyObject *self) {
 	std::stringstream s;
 $?{type == 'float'
 	s.precision(std::numeric_limits<float>::digits10);
-	s.setf(std::ios::fixed);
 $?}
 	s << Py_TYPE(self)->tp_name << "("
 /*$ {cols * rows} $*/
@@ -1253,7 +1252,6 @@ PyObject * glm_${p}vec${n}_tp_repr(PyObject *self) {
 	std::stringstream s;
 $?{type == 'float'
 	s.precision(std::numeric_limits<float>::digits10);
-	s.setf(std::ios::fixed);
 $?}
 	s << Py_TYPE(self)->tp_name << "("
 /*$ {n} $*/
