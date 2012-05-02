@@ -959,8 +959,22 @@ $?}
 		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
 		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec ${s} ((glm_${p}vec${n} *)other)->vec;
 	}
+$?{not only
+	else if(PyIter_Check(other) || Py_TYPE(other)->tp_iter) {
+		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
+		
+		PyObject *convert;
+		PyObject *args = Py_BuildValue("(O)", other);
+		convert = PyObject_CallObject((PyObject *)Py_TYPE(self), args);
+		Py_DECREF(args);
+		
+		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec ${s} ((glm_${p}vec${n} *)convert)->vec;
+		
+		Py_DECREF(convert);
+	}
+$?}
 	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
+		PyErr_SetString(PyExc_TypeError, "${'Must be a number or of the same type.' if only else 'Must be a number, the same type, or an iterable.'}");
 		return NULL;
 	}
 	
@@ -977,8 +991,20 @@ $??{type == 'float'
 $?}
 	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type))
 		((glm_${p}vec${n} *)self)->vec ${s}= ((glm_${p}vec${n} *)other)->vec;
+$?{not only
+	else if(PyIter_Check(other) || Py_TYPE(other)->tp_iter) {
+		PyObject *convert;
+		PyObject *args = Py_BuildValue("(O)", other);
+		convert = PyObject_CallObject((PyObject *)Py_TYPE(self), args);
+		Py_DECREF(args);
+		
+		((glm_${p}vec${n} *)self)->vec ${s}= ((glm_${p}vec${n} *)convert)->vec;
+		
+		Py_DECREF(convert);
+	}
+$?}
 	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
+		PyErr_SetString(PyExc_TypeError, "${'Must be a number or of the same type.' if only else 'Must be a number, the same type, or an iterable.'}");
 		return NULL;
 	}
 	
