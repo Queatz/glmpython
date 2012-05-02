@@ -13,17 +13,17 @@ Do `dir(glm)` to see a list of supported types and function.
 >>> import glm
 >>> a = glm.vec3()
 >>> a
-glm.vec3(0.000000, 0.000000, 0.000000)
+glm.vec3(0, 0, 0)
 >>> a.brg = .3, 1, .5
 >>> a
-glm.vec3(1.000000, 0.500000, 0.300000)
+glm.vec3(1, 0.5, 0.3)
 >>> b = glm.vec4(.7, a)
 >>> b
-glm.vec4(0.700000, 1.000000, 0.500000, 0.300000)
+glm.vec4(0.7, 1, 0.5, 0.3)
 >>> c = b.yz
 >>> c
-glm.vec2(1.000000, 0.500000)
+glm.vec2(1, 0.5)
 >>> c / glm.vec2(2, .5)
-glm.vec2(0.500000, 1.000000)
+glm.vec2(0.5, 1)
 >>> 
 ```
