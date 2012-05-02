@@ -39,10 +39,7 @@ static int glm_${p}mat${n}_bf_getbuffer(PyObject *, Py_buffer *, int);
 
 
 /*$ VECTOR_MATH $*/
-$?{not only
-static PyObject *glm_${p}vec${n}_nb_${f}(PyObject *, PyObject *);
-static PyObject *glm_${p}vec${n}_nb_inplace_${f}(PyObject *, PyObject *);
-$??{only == type
+$?{not only or type == only or type in only
 static PyObject *glm_${p}vec${n}_nb_${f}(PyObject *, PyObject *);
 static PyObject *glm_${p}vec${n}_nb_inplace_${f}(PyObject *, PyObject *);
 $?}
