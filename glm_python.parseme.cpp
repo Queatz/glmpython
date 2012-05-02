@@ -13,16 +13,15 @@
 
 static PyObject *glm_${p}mat${n}_nb_add(PyObject *, PyObject *);
 static PyObject *glm_${p}mat${n}_nb_subtract(PyObject *, PyObject *);
-static PyObject *glm_${p}mat${n}_nb_subtract(PyObject *, PyObject *);
 static PyObject *glm_${p}mat${n}_nb_multiply(PyObject *, PyObject *);
+static PyObject *glm_${p}mat${n}_nb_true_divide(PyObject *, PyObject *);
+
 static PyObject *glm_${p}mat${n}_nb_negative(PyObject *);
 static PyObject *glm_${p}mat${n}_nb_positive(PyObject *);
 
 static PyObject *glm_${p}mat${n}_nb_inplace_add(PyObject *, PyObject *);
 static PyObject *glm_${p}mat${n}_nb_inplace_subtract(PyObject *, PyObject *);
 static PyObject *glm_${p}mat${n}_nb_inplace_multiply(PyObject *, PyObject *);
-
-static PyObject *glm_${p}mat${n}_nb_true_divide(PyObject *, PyObject *);
 static PyObject *glm_${p}mat${n}_nb_inplace_true_divide(PyObject *, PyObject *);
 
 static Py_ssize_t glm_${p}mat${n}_sq_length(PyObject *);
@@ -38,10 +37,16 @@ static int glm_${p}mat${n}_bf_getbuffer(PyObject *, Py_buffer *, int);
 
 /* ${p}vec${n} */
 
-static PyObject *glm_${p}vec${n}_nb_add(PyObject *, PyObject *);
-static PyObject *glm_${p}vec${n}_nb_subtract(PyObject *, PyObject *);
-static PyObject *glm_${p}vec${n}_nb_subtract(PyObject *, PyObject *);
-static PyObject *glm_${p}vec${n}_nb_multiply(PyObject *, PyObject *);
+
+/*$ VECTOR_MATH $*/
+$?{not only
+static PyObject *glm_${p}vec${n}_nb_${f}(PyObject *, PyObject *);
+static PyObject *glm_${p}vec${n}_nb_inplace_${f}(PyObject *, PyObject *);
+$??{only == type
+static PyObject *glm_${p}vec${n}_nb_${f}(PyObject *, PyObject *);
+static PyObject *glm_${p}vec${n}_nb_inplace_${f}(PyObject *, PyObject *);
+$?}
+/*$ $*/
 $?{type == 'float'
 static PyObject *glm_${p}vec${n}_nb_remainder(PyObject *, PyObject *);
 static PyObject *glm_${p}vec${n}_nb_divmod(PyObject *, PyObject *);
@@ -53,33 +58,12 @@ static PyObject *glm_${p}vec${n}_nb_absolute(PyObject *);
 $?{type == 'int'
 
 static PyObject *glm_${p}vec${n}_nb_invert(PyObject *);
-static PyObject *glm_${p}vec${n}_nb_lshift(PyObject *, PyObject *);
-static PyObject *glm_${p}vec${n}_nb_rshift(PyObject *, PyObject *);
-static PyObject *glm_${p}vec${n}_nb_and(PyObject *, PyObject *);
-static PyObject *glm_${p}vec${n}_nb_xor(PyObject *, PyObject *);
-static PyObject *glm_${p}vec${n}_nb_or(PyObject *, PyObject *);
-$?}
-
-static PyObject *glm_${p}vec${n}_nb_inplace_add(PyObject *, PyObject *);
-static PyObject *glm_${p}vec${n}_nb_inplace_subtract(PyObject *, PyObject *);
-static PyObject *glm_${p}vec${n}_nb_inplace_multiply(PyObject *, PyObject *);
-$?{type == 'int'
-
-static PyObject *glm_${p}vec${n}_nb_inplace_lshift(PyObject *, PyObject *);
-static PyObject *glm_${p}vec${n}_nb_inplace_rshift(PyObject *, PyObject *);
-static PyObject *glm_${p}vec${n}_nb_inplace_and(PyObject *, PyObject *);
-static PyObject *glm_${p}vec${n}_nb_inplace_xor(PyObject *, PyObject *);
-static PyObject *glm_${p}vec${n}_nb_inplace_or(PyObject *, PyObject *);
 $?}
 
 $?{type == 'float'
 static PyObject *glm_${p}vec${n}_nb_floor_divide(PyObject *, PyObject *);
-$?}
-static PyObject *glm_${p}vec${n}_nb_true_divide(PyObject *, PyObject *);
-$?{type == 'float'
 static PyObject *glm_${p}vec${n}_nb_inplace_floor_divide(PyObject *, PyObject *);
 $?}
-static PyObject *glm_${p}vec${n}_nb_inplace_true_divide(PyObject *, PyObject *);
 
 static Py_ssize_t glm_${p}vec${n}_sq_length(PyObject *);
 static PyObject *glm_${p}vec${n}_sq_item(PyObject *, Py_ssize_t);
@@ -950,29 +934,30 @@ int glm_${p}mat${n}_bf_getbuffer(PyObject *self, Py_buffer *view, int flags) {
 
 /* ${p}vec${n}: Numbers */
 
+/*$ VECTOR_MATH $*/
+$?{not only or type == only or type in only
 static
-PyObject *glm_${p}vec${n}_nb_add(PyObject *self, PyObject *other) {
+PyObject *glm_${p}vec${n}_nb_${f}(PyObject *self, PyObject *other) {
 	PyObject *result;
-	
 	if(PyNumber_Check(other)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
 $?{type == 'int'
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec + (int)PyLong_AsLong(other);
+		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec ${s} (int)PyLong_AsLong(other);
 $??{type == 'float'
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec + (float)PyFloat_AsDouble(other);
+		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec ${s} (float)PyFloat_AsDouble(other);
 $?}
 	}
 	else if(PyNumber_Check(self) && PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(other), NULL);
 $?{type == 'int'
-		((glm_${p}vec${n} *)result)->vec = (int)PyLong_AsLong(self) + ((glm_${p}vec${n} *)other)->vec;
+		((glm_${p}vec${n} *)result)->vec = (int)PyLong_AsLong(self) ${s} ((glm_${p}vec${n} *)other)->vec;
 $??{type == 'float'
-		((glm_${p}vec${n} *)result)->vec = (float)PyFloat_AsDouble(self) + ((glm_${p}vec${n} *)other)->vec;
+		((glm_${p}vec${n} *)result)->vec = (float)PyFloat_AsDouble(self) ${s} ((glm_${p}vec${n} *)other)->vec;
 $?}
 	}
 	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec + ((glm_${p}vec${n} *)other)->vec;
+		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec ${s} ((glm_${p}vec${n} *)other)->vec;
 	}
 	else {
 		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
@@ -983,66 +968,26 @@ $?}
 }
 
 static
-PyObject *glm_${p}vec${n}_nb_subtract(PyObject *self, PyObject *other) {
-	PyObject *result;
-	if(PyNumber_Check(other)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
+PyObject *glm_${p}vec${n}_nb_inplace_${f}(PyObject *self, PyObject *other) {
+	if(PyNumber_Check(other))
 $?{type == 'int'
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec - (int)PyLong_AsLong(other);
+		((glm_${p}vec${n} *)self)->vec ${s}= (int)PyLong_AsLong(other);
 $??{type == 'float'
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec - (float)PyFloat_AsDouble(other);
+		((glm_${p}vec${n} *)self)->vec ${s}= (float)PyFloat_AsDouble(other);
 $?}
-	}
-	else if(PyNumber_Check(self) && PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(other), NULL);
-$?{type == 'int'
-		((glm_${p}vec${n} *)result)->vec = (int)PyLong_AsLong(self) - ((glm_${p}vec${n} *)other)->vec;
-$??{type == 'float'
-		((glm_${p}vec${n} *)result)->vec = (float)PyFloat_AsDouble(self) - ((glm_${p}vec${n} *)other)->vec;
-$?}
-	}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec - ((glm_${p}vec${n} *)other)->vec;
-	}
+	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type))
+		((glm_${p}vec${n} *)self)->vec ${s}= ((glm_${p}vec${n} *)other)->vec;
 	else {
 		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
 		return NULL;
 	}
 	
-	return result;
+	Py_INCREF(self);
+	return self;
 }
 
-static
-PyObject *glm_${p}vec${n}_nb_multiply(PyObject *self, PyObject *other) {
-	PyObject *result;
-	if(PyNumber_Check(other)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-$?{type == 'int'
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec * (int)PyLong_AsLong(other);
-$??{type == 'float'
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec * (float)PyFloat_AsDouble(other);
 $?}
-	}
-	else if(PyNumber_Check(self) && PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(other), NULL);
-$?{type == 'int'
-		((glm_${p}vec${n} *)result)->vec = (int)PyLong_AsLong(self) * ((glm_${p}vec${n} *)other)->vec;
-$??{type == 'float'
-		((glm_${p}vec${n} *)result)->vec = (float)PyFloat_AsDouble(self) * ((glm_${p}vec${n} *)other)->vec;
-$?}
-	}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec * ((glm_${p}vec${n} *)other)->vec;
-	}
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	return result;
-}
+/*$ $*/
 
 $?{type == 'float'
 static
@@ -1175,231 +1120,6 @@ PyObject *glm_${p}vec${n}_nb_invert(PyObject *self) {
 	((glm_${p}vec${n} *)result)->vec = ~((glm_${p}vec${n} *)self)->vec;
 	return result;
 }
-
-static
-PyObject *glm_${p}vec${n}_nb_lshift(PyObject *self, PyObject *other) {
-	PyObject *result;
-	if(PyNumber_Check(other)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec << (int)PyLong_AsLong(other);
-	}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec << ((glm_${p}vec${n} *)other)->vec;
-	}
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	return result;
-}
-
-static
-PyObject *glm_${p}vec${n}_nb_rshift(PyObject *self, PyObject *other) {
-	PyObject *result;
-	if(PyNumber_Check(other)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec >> (int)PyLong_AsLong(other);
-	}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec >> ((glm_${p}vec${n} *)other)->vec;
-	}
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	return result;
-}
-
-static
-PyObject *glm_${p}vec${n}_nb_and(PyObject *self, PyObject *other) {
-	PyObject *result;
-	if(PyNumber_Check(other)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec & (int)PyLong_AsLong(other);
-	}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec & ((glm_${p}vec${n} *)other)->vec;
-	}
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	return result;
-}
-
-static
-PyObject *glm_${p}vec${n}_nb_xor(PyObject *self, PyObject *other) {
-	PyObject *result;
-	if(PyNumber_Check(other)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec ^ (int)PyLong_AsLong(other);
-	}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec ^ ((glm_${p}vec${n} *)other)->vec;
-	}
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	return result;
-}
-
-static
-PyObject *glm_${p}vec${n}_nb_or(PyObject *self, PyObject *other) {
-	PyObject *result;
-	if(PyNumber_Check(other)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec | (int)PyLong_AsLong(other);
-	}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec | ((glm_${p}vec${n} *)other)->vec;
-	}
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	return result;
-}
-$?}
-
-static
-PyObject *glm_${p}vec${n}_nb_inplace_add(PyObject *self, PyObject *other) {
-	if(PyNumber_Check(other))
-		((glm_${p}vec${n} *)self)->vec += (int)PyLong_AsLong(other);
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type))
-		((glm_${p}vec${n} *)self)->vec += ((glm_${p}vec${n} *)other)->vec;
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	Py_INCREF(self);
-	return self;
-}
-
-static
-PyObject *glm_${p}vec${n}_nb_inplace_subtract(PyObject *self, PyObject *other) {
-	if(PyNumber_Check(other))
-$?{type == 'int'
-		((glm_${p}vec${n} *)self)->vec -= (int)PyLong_AsLong(other);
-$??{type == 'float'
-		((glm_${p}vec${n} *)self)->vec -= (float)PyFloat_AsDouble(other);
-$?}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type))
-		((glm_${p}vec${n} *)self)->vec -= ((glm_${p}vec${n} *)other)->vec;
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	Py_INCREF(self);
-	return self;
-}
-
-static
-PyObject *glm_${p}vec${n}_nb_inplace_multiply(PyObject *self, PyObject *other) {
-	if(PyNumber_Check(other))
-$?{type == 'int'
-		((glm_${p}vec${n} *)self)->vec *= (int)PyLong_AsLong(other);
-$??{type == 'float'
-		((glm_${p}vec${n} *)self)->vec *= (float)PyFloat_AsDouble(other);
-$?}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type))
-		((glm_${p}vec${n} *)self)->vec *= ((glm_${p}vec${n} *)other)->vec;
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	Py_INCREF(self);
-	return self;
-}
-
-$?{type == 'int'
-static
-PyObject *glm_${p}vec${n}_nb_inplace_lshift(PyObject *self, PyObject *other) {
-	if(PyNumber_Check(other))
-		((glm_${p}vec${n} *)self)->vec <<= (int)PyLong_AsLong(other);
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type))
-		((glm_${p}vec${n} *)self)->vec <<= ((glm_${p}vec${n} *)other)->vec;
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	Py_INCREF(self);
-	return self;
-}
-
-static
-PyObject *glm_${p}vec${n}_nb_inplace_rshift(PyObject *self, PyObject *other) {
-	if(PyNumber_Check(other))
-		((glm_${p}vec${n} *)self)->vec >>= (int)PyLong_AsLong(other);
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type))
-		((glm_${p}vec${n} *)self)->vec >>= ((glm_${p}vec${n} *)other)->vec;
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	Py_INCREF(self);
-	return self;
-}
-
-static
-PyObject *glm_${p}vec${n}_nb_inplace_and(PyObject *self, PyObject *other) {
-	if(PyNumber_Check(other))
-		((glm_${p}vec${n} *)self)->vec &= (int)PyLong_AsLong(other);
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type))
-		((glm_${p}vec${n} *)self)->vec &= ((glm_${p}vec${n} *)other)->vec;
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	Py_INCREF(self);
-	return self;
-}
-
-static
-PyObject *glm_${p}vec${n}_nb_inplace_xor(PyObject *self, PyObject *other) {
-	if(PyNumber_Check(other))
-		((glm_${p}vec${n} *)self)->vec ^= (int)PyLong_AsLong(other);
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type))
-		((glm_${p}vec${n} *)self)->vec ^= ((glm_${p}vec${n} *)other)->vec;
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	Py_INCREF(self);
-	return self;
-}
-
-static
-PyObject *glm_${p}vec${n}_nb_inplace_or(PyObject *self, PyObject *other) {
-	if(PyNumber_Check(other))
-		((glm_${p}vec${n} *)self)->vec |= (int)PyLong_AsLong(other);
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type))
-		((glm_${p}vec${n} *)self)->vec |= ((glm_${p}vec${n} *)other)->vec;
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	Py_INCREF(self);
-	return self;
-}
 $?}
 
 $?{type == 'float'
@@ -1435,37 +1155,6 @@ $?}
 }
 $?}
 
-static
-PyObject *glm_${p}vec${n}_nb_true_divide(PyObject *self, PyObject *other) {
-	PyObject *result;
-	if(PyNumber_Check(other)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-$?{type == 'int'
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec / (int)PyLong_AsLong(other);
-$??{type == 'float'
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec / (float)PyFloat_AsDouble(other);
-$?}
-	}
-	else if(PyNumber_Check(self) && PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(other), NULL);
-$?{type == 'int'
-		((glm_${p}vec${n} *)result)->vec = (int)PyLong_AsLong(self) / ((glm_${p}vec${n} *)other)->vec;
-$??{type == 'float'
-		((glm_${p}vec${n} *)result)->vec = (float)PyFloat_AsDouble(self) / ((glm_${p}vec${n} *)other)->vec;
-$?}
-	}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
-		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
-		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec / ((glm_${p}vec${n} *)other)->vec;
-	}
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	return result;
-}
-
 $?{type == 'float'
 static
 PyObject *glm_${p}vec${n}_nb_inplace_floor_divide(PyObject *self, PyObject *other) {
@@ -1488,25 +1177,6 @@ $?}
 	return self;
 }
 $?}
-
-static
-PyObject *glm_${p}vec${n}_nb_inplace_true_divide(PyObject *self, PyObject *other) {
-	if(PyNumber_Check(other))
-$?{type == 'int'
-		((glm_${p}vec${n} *)self)->vec /= (int)PyLong_AsLong(other);
-$??{type == 'float'
-		((glm_${p}vec${n} *)self)->vec /= (float)PyFloat_AsDouble(other);
-$?}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type))
-		((glm_${p}vec${n} *)self)->vec /= ((glm_${p}vec${n} *)other)->vec;
-	else {
-		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
-		return NULL;
-	}
-	
-	Py_INCREF(self);
-	return self;
-}
 
 /* ${p}vec${n}: Sequence */
 

@@ -15,6 +15,19 @@ for t in (('', 'float'), ('i', 'int')):
 		VECTOR.add(parseme.Round(p = t[0], n = n, type = t[1]))
 glmParse.add(VECTOR)
 
+VECTOR_MATH = parseme.Section('VECTOR_MATH')
+VECTOR_MATH.add(parseme.Round(s = '+', f = 'add', only = None))
+VECTOR_MATH.add(parseme.Round(s = '-', f = 'subtract', only = None))
+VECTOR_MATH.add(parseme.Round(s = '*', f = 'multiply', only = None))
+VECTOR_MATH.add(parseme.Round(s = '/', f = 'true_divide', only = None))
+VECTOR_MATH.add(parseme.Round(s = '<<', f = 'lshift', only = 'int'))
+VECTOR_MATH.add(parseme.Round(s = '>>', f = 'rshift', only = 'int'))
+VECTOR_MATH.add(parseme.Round(s = '&', f = 'and', only = 'int'))
+VECTOR_MATH.add(parseme.Round(s = '^', f = 'xor', only = 'int'))
+VECTOR_MATH.add(parseme.Round(s = '|', f = 'or', only = 'int'))
+
+glmParse.add(VECTOR_MATH)
+
 # In the MATRIX section,
 # p is a prefix to the name
 # cols and rows is the size of the vector
