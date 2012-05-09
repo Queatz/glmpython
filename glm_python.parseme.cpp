@@ -32,6 +32,8 @@ static PyObject *glm_${p}mat${n}_tp_repr(PyObject *);
 static int glm_${p}mat${n}_tp_init(PyObject *, PyObject *, PyObject *);
 
 static int glm_${p}mat${n}_bf_getbuffer(PyObject *, Py_buffer *, int);
+
+static PyObject *glm_${p}mat${n}_tp_richcompare(PyObject *, PyObject *, int);
 /*$ $*/
 /*$ VECTOR $*/
 
@@ -72,6 +74,8 @@ static int glm_${p}vec${n}_tp_setattro(PyObject *, PyObject *, PyObject *);
 static int glm_${p}vec${n}_tp_init(PyObject *, PyObject *, PyObject *);
 
 static int glm_${p}vec${n}_bf_getbuffer(PyObject *, Py_buffer *, int);
+
+static PyObject *glm_${p}vec${n}_tp_richcompare(PyObject *, PyObject *, int);
 /*$ $*/
 
 /* * * Types * * */
@@ -193,7 +197,7 @@ PyTypeObject glm_${p}mat${n}Type = {
 	glm_${p}mat${n}Type__doc__,								/* tp_doc */
 	0,														/* tp_traverse */
 	0,														/* tp_clear */
-	0,														/* tp_richcompare */
+	glm_${p}mat${n}_tp_richcompare,							/* tp_richcompare */
 	0,														/* tp_weaklistoffset */
 	0,														/* tp_iter */
 	0,														/* tp_iternext */
@@ -356,7 +360,7 @@ PyTypeObject glm_${p}vec${n}Type = {
 	glm_${p}vec${n}Type__doc__,								/* tp_doc */
 	0,														/* tp_traverse */
 	0,														/* tp_clear */
-	0,														/* tp_richcompare */
+	glm_${p}vec${n}_tp_richcompare,							/* tp_richcompare */
 	0,														/* tp_weaklistoffset */
 	0,														/* tp_iter */
 	0,														/* tp_iternext */
@@ -922,6 +926,29 @@ $?}
 int glm_${p}mat${n}_bf_getbuffer(PyObject *self, Py_buffer *view, int flags) {
 	PyBuffer_FillInfo(view, self, glm::value_ptr(((glm_${p}mat${n} *)self)->mat), sizeof(${type}) * ${cols * rows}, 1, PyBUF_SIMPLE);
 	return 0;
+}
+
+PyObject *glm_${p}mat${n}_tp_richcompare(PyObject *self, PyObject *other, int op) {
+	switch(op) {
+/*$ {(('EQ', '=='), ('NE', '!='))} $*/
+		case Py_${I[0]}:
+			if(!PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
+				PyErr_SetString(PyExc_TypeError, "Comparison must be of the same type.");
+				return NULL;
+			}
+			
+			if(((glm_${p}mat${n} *)self)->mat ${I[1]} ((glm_${p}mat${n} *)other)->mat) {
+				Py_INCREF(Py_True);
+				return Py_True;
+			}
+			
+			Py_INCREF(Py_False);
+			return Py_False;
+/*$ $*/
+		default:
+			PyErr_SetString(PyExc_TypeError, "Comparison not valid.");
+			return NULL;
+	}
 }
 
 /*$ $*/
@@ -1534,6 +1561,29 @@ $?}
 int glm_${p}vec${n}_bf_getbuffer(PyObject *self, Py_buffer *view, int flags) {
 	PyBuffer_FillInfo(view, self, glm::value_ptr(((glm_${p}vec${n} *)self)->vec), sizeof(${type}) * ${n}, 1, PyBUF_SIMPLE);
 	return 0;
+}
+
+PyObject *glm_${p}vec${n}_tp_richcompare(PyObject *self, PyObject *other, int op) {
+	switch(op) {
+/*$ {(('EQ', '=='), ('NE', '!='))} $*/
+		case Py_${I[0]}:
+			if(!PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
+				PyErr_SetString(PyExc_TypeError, "Comparison must be of the same type.");
+				return NULL;
+			}
+			
+			if(((glm_${p}vec${n} *)self)->vec ${I[1]} ((glm_${p}vec${n} *)other)->vec) {
+				Py_INCREF(Py_True);
+				return Py_True;
+			}
+			
+			Py_INCREF(Py_False);
+			return Py_False;
+/*$ $*/
+		default:
+			PyErr_SetString(PyExc_TypeError, "Comparison not valid.");
+			return NULL;
+	}
 }
 /*$ $*/
 
