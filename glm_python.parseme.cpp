@@ -34,6 +34,7 @@ static int glm_${p}mat${n}_tp_init(PyObject *, PyObject *, PyObject *);
 static int glm_${p}mat${n}_bf_getbuffer(PyObject *, Py_buffer *, int);
 
 static PyObject *glm_${p}mat${n}_tp_richcompare(PyObject *, PyObject *, int);
+static Py_hash_t glm_${p}mat${n}_tp_hash(PyObject *);
 /*$ $*/
 /*$ VECTOR $*/
 
@@ -76,6 +77,7 @@ static int glm_${p}vec${n}_tp_init(PyObject *, PyObject *, PyObject *);
 static int glm_${p}vec${n}_bf_getbuffer(PyObject *, Py_buffer *, int);
 
 static PyObject *glm_${p}vec${n}_tp_richcompare(PyObject *, PyObject *, int);
+static Py_hash_t glm_${p}vec${n}_tp_hash(PyObject *);
 /*$ $*/
 
 /* * * Types * * */
@@ -186,7 +188,7 @@ PyTypeObject glm_${p}mat${n}Type = {
 	&glm_${p}mat${n}_NumberMethods,							/* tp_as_number */
 	&glm_${p}mat${n}_SequenceMethods,						/* tp_as_sequence */
 	0,														/* tp_as_mapping */
-	0,														/* tp_hash  */
+	(hashfunc)glm_${p}mat${n}_tp_hash,						/* tp_hash  */
 	0,														/* tp_call */
 	0,														/* tp_str */
 	PyObject_GenericGetAttr,								/* tp_getattro */
@@ -349,7 +351,7 @@ PyTypeObject glm_${p}vec${n}Type = {
 	&glm_${p}vec${n}_NumberMethods,							/* tp_as_number */
 	&glm_${p}vec${n}_SequenceMethods,						/* tp_as_sequence */
 	0,														/* tp_as_mapping */
-	0,														/* tp_hash  */
+	(hashfunc)glm_${p}vec${n}_tp_hash,						/* tp_hash  */
 	0,														/* tp_call */
 	0,														/* tp_str */
 	(getattrofunc)glm_${p}vec${n}_tp_getattro,				/* tp_getattro */
@@ -817,7 +819,7 @@ $?{type == 'float'
 $?}
 	s << Py_TYPE(self)->tp_name << "("
 /*$ {cols * rows} $*/
-	${'<< ", "' if I > 0 else ''} << (*v)[${I}/${rows}][${I}%${rows}]
+	${'<< ", "' if I > 0 else ''} << (*v)[${int(I/rows)}][${int(I%rows)}]
 /*$ $*/
 	<< ")";
 	PyObject *result = PyUnicode_FromString(s.str().c_str());
@@ -933,8 +935,8 @@ PyObject *glm_${p}mat${n}_tp_richcompare(PyObject *self, PyObject *other, int op
 /*$ {(('EQ', '=='), ('NE', '!='))} $*/
 		case Py_${I[0]}:
 			if(!PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
-				PyErr_SetString(PyExc_TypeError, "Comparison must be of the same type.");
-				return NULL;
+				Py_INCREF(Py_False);
+				return Py_False;
 			}
 			
 			if(((glm_${p}mat${n} *)self)->mat ${I[1]} ((glm_${p}mat${n} *)other)->mat) {
@@ -949,6 +951,27 @@ PyObject *glm_${p}mat${n}_tp_richcompare(PyObject *self, PyObject *other, int op
 			PyErr_SetString(PyExc_TypeError, "Comparison not valid.");
 			return NULL;
 	}
+}
+
+Py_hash_t glm_${p}mat${n}_tp_hash(PyObject *self) {
+	Py_hash_t x;
+
+$?{type == 'int'
+	x = (Py_hash_t) ((glm_${p}mat${n} *)self)->mat[0][0];
+/*$ {range(1, cols * rows)} $*/
+	x ^= (Py_hash_t) ((glm_${p}mat${n} *)self)->mat[${int(I/rows)}][${int(I%rows)}] << ${int(I / (cols * rows) * 31)};
+/*$ $*/
+$??{
+	x = _Py_HashDouble((double)((glm_${p}mat${n} *)self)->mat[0][0]);
+/*$ {range(1, cols * rows)} $*/
+	x ^= _Py_HashDouble((double)((glm_${p}mat${n} *)self)->mat[${int(I/rows)}][${int(I%rows)}]) << ${int(I / (cols * rows) * 31)};
+/*$ $*/
+$?}
+	
+	if(x == -1)
+		x = -2;
+	
+	return x;
 }
 
 /*$ $*/
@@ -1568,8 +1591,8 @@ PyObject *glm_${p}vec${n}_tp_richcompare(PyObject *self, PyObject *other, int op
 /*$ {(('EQ', '=='), ('NE', '!='))} $*/
 		case Py_${I[0]}:
 			if(!PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
-				PyErr_SetString(PyExc_TypeError, "Comparison must be of the same type.");
-				return NULL;
+				Py_INCREF(Py_False);
+				return Py_False;
 			}
 			
 			if(((glm_${p}vec${n} *)self)->vec ${I[1]} ((glm_${p}vec${n} *)other)->vec) {
@@ -1584,6 +1607,27 @@ PyObject *glm_${p}vec${n}_tp_richcompare(PyObject *self, PyObject *other, int op
 			PyErr_SetString(PyExc_TypeError, "Comparison not valid.");
 			return NULL;
 	}
+}
+
+Py_hash_t glm_${p}vec${n}_tp_hash(PyObject *self) {
+	Py_hash_t x;
+
+$?{type == 'int'
+	x = (Py_hash_t) ((glm_${p}vec${n} *)self)->vec[0];
+/*$ {range(1, n)} $*/
+	x ^= (Py_hash_t) ((glm_${p}vec${n} *)self)->vec[${I}] << ${int(I / n * 31)};
+/*$ $*/
+$??{
+	x = _Py_HashDouble((double)((glm_${p}vec${n} *)self)->vec[0]);
+/*$ {range(1, n)} $*/
+	x ^= _Py_HashDouble((double)((glm_${p}vec${n} *)self)->vec[${I}]) << ${int(I / n * 31)};
+/*$ $*/
+$?}
+	
+	if(x == -1)
+		x = -2;
+	
+	return x;
 }
 /*$ $*/
 
