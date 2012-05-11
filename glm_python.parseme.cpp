@@ -537,7 +537,7 @@ $??{type == 'float'
 $?}
 	}
 $?{cols == rows
-	else if(PyNumber_Check(self) && PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
+	else if(PyNumber_Check(self) && 1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(other), NULL);
 $?{type == 'int'
 		((glm_${p}mat${n} *)result)->mat = (int)PyLong_AsLong(self) + ((glm_${p}mat${n} *)other)->mat;
@@ -546,7 +546,7 @@ $??{type == 'float'
 $?}
 	}
 $?}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
+	else if(1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
 		((glm_${p}mat${n} *)result)->mat = ((glm_${p}mat${n} *)self)->mat + ((glm_${p}mat${n} *)other)->mat;
 	}
@@ -570,7 +570,7 @@ $??{type == 'float'
 $?}
 	}
 $?{cols == rows
-	else if(PyNumber_Check(self) && PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
+	else if(PyNumber_Check(self) && 1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(other), NULL);
 $?{type == 'int'
 		((glm_${p}mat${n} *)result)->mat = (int)PyLong_AsLong(self) - ((glm_${p}mat${n} *)other)->mat;
@@ -579,7 +579,7 @@ $??{type == 'float'
 $?}
 	}
 $?}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
+	else if(1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
 		((glm_${p}mat${n} *)result)->mat = ((glm_${p}mat${n} *)self)->mat - ((glm_${p}mat${n} *)other)->mat;
 	}
@@ -602,7 +602,7 @@ $??{type == 'float'
 		((glm_${p}mat${n} *)result)->mat = ((glm_${p}mat${n} *)self)->mat * (float)PyFloat_AsDouble(other);
 $?}
 	}
-	else if(PyNumber_Check(self) && PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
+	else if(PyNumber_Check(self) && 1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(other), NULL);
 $?{type == 'int'
 		((glm_${p}mat${n} *)result)->mat = (int)PyLong_AsLong(self) * ((glm_${p}mat${n} *)other)->mat;
@@ -611,7 +611,7 @@ $??{type == 'float'
 $?}
 	}
 $?{cols == rows
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
+	else if(1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
 		((glm_${p}mat${n} *)result)->mat = ((glm_${p}mat${n} *)self)->mat * ((glm_${p}mat${n} *)other)->mat;
 	}
@@ -647,7 +647,7 @@ static
 PyObject *glm_${p}mat${n}_nb_inplace_add(PyObject *self, PyObject *other) {
 	if(PyNumber_Check(other))
 		((glm_${p}mat${n} *)self)->mat += (int)PyLong_AsLong(other);
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type))
+	else if(1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type))
 		((glm_${p}mat${n} *)self)->mat += ((glm_${p}mat${n} *)other)->mat;
 	else {
 		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
@@ -666,7 +666,7 @@ $?{type == 'int'
 $??{type == 'float'
 		((glm_${p}mat${n} *)self)->mat -= (float)PyFloat_AsDouble(other);
 $?}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type))
+	else if(1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type))
 		((glm_${p}mat${n} *)self)->mat -= ((glm_${p}mat${n} *)other)->mat;
 	else {
 		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
@@ -686,7 +686,7 @@ $??{type == 'float'
 		((glm_${p}mat${n} *)self)->mat *= (float)PyFloat_AsDouble(other);
 $?}
 $?{cols == rows
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type))
+	else if(1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type))
 		((glm_${p}mat${n} *)self)->mat *= ((glm_${p}mat${n} *)other)->mat;
 $?}
 	else {
@@ -713,7 +713,7 @@ $??{type == 'float'
 		((glm_${p}mat${n} *)result)->mat = ((glm_${p}mat${n} *)self)->mat / (float)PyFloat_AsDouble(other);
 $?}
 	}
-	else if(PyNumber_Check(self) && PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
+	else if(PyNumber_Check(self) && 1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(other), NULL);
 $?{type == 'int'
 		((glm_${p}mat${n} *)result)->mat = (int)PyLong_AsLong(self) / ((glm_${p}mat${n} *)other)->mat;
@@ -722,7 +722,7 @@ $??{type == 'float'
 $?}
 	}
 $?{cols == rows
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
+	else if(1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
 		((glm_${p}mat${n} *)result)->mat = ((glm_${p}mat${n} *)self)->mat / ((glm_${p}mat${n} *)other)->mat;
 	}
@@ -748,7 +748,7 @@ $??{type == 'float'
 		((glm_${p}mat${n} *)self)->mat /= (float)PyFloat_AsDouble(other);
 $?}
 $?{cols == rows
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type))
+	else if(1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type))
 		((glm_${p}mat${n} *)self)->mat /= ((glm_${p}mat${n} *)other)->mat;
 $?}
 	else {
@@ -828,7 +828,7 @@ $?}
 
 static
 int glm_${p}mat${n}_tp_init(PyObject *self, PyObject *args, PyObject *kwargs) {
-	if(!PyObject_IsInstance(self, (PyObject *)&glm_${p}mat${n}Type)) {
+	if(1 != PyObject_IsInstance(self, (PyObject *)&glm_${p}mat${n}Type)) {
 		PyErr_SetString(PyExc_TypeError, "Can only init ${p}mat${n}.");
 		return -1;
 	}
@@ -934,7 +934,40 @@ PyObject *glm_${p}mat${n}_tp_richcompare(PyObject *self, PyObject *other, int op
 	switch(op) {
 /*$ {(('EQ', '=='), ('NE', '!='))} $*/
 		case Py_${I[0]}:
-			if(!PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
+			if(1 != PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
+				if((PyIter_Check(other) || Py_TYPE(other)->tp_iter) && PyObject_Size(self) == PyObject_Size(other)) {
+					PyObject *iter = PyObject_GetIter(self);
+					PyObject *itero = PyObject_GetIter(other);
+					PyObject *iteritem;
+					PyObject *iteritemo;
+					
+					if(iter != NULL && itero != NULL) {
+						while(true) {
+							iteritem = PyIter_Next(iter);
+							iteritemo = PyIter_Next(itero);
+						
+							if(iteritem == NULL && iteritemo == NULL) {
+								Py_INCREF(Py_True);
+								return Py_True;
+							}
+						
+							if(iteritem == NULL || iteritemo == NULL || 1 != PyObject_RichCompareBool(iteritem, iteritemo, Py_${I[0]}))
+								break;
+							
+							Py_DECREF(iteritem);
+							Py_DECREF(iteritemo);
+						}
+					}
+					
+					Py_XDECREF(iter);
+					Py_XDECREF(itero);
+				}
+				
+				Py_INCREF(Py_False);
+				return Py_False;
+			}
+			
+			if(1 != PyObject_IsInstance(other, (PyObject *)&glm_${p}mat${n}Type)) {
 				Py_INCREF(Py_False);
 				return Py_False;
 			}
@@ -993,7 +1026,7 @@ $??{type == 'float'
 		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec ${s} (float)PyFloat_AsDouble(other);
 $?}
 	}
-	else if(PyNumber_Check(self) && PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
+	else if(PyNumber_Check(self) && 1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(other), NULL);
 $?{type == 'int'
 		((glm_${p}vec${n} *)result)->vec = (int)PyLong_AsLong(self) ${s} ((glm_${p}vec${n} *)other)->vec;
@@ -1001,7 +1034,7 @@ $??{type == 'float'
 		((glm_${p}vec${n} *)result)->vec = (float)PyFloat_AsDouble(self) ${s} ((glm_${p}vec${n} *)other)->vec;
 $?}
 	}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
+	else if(1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
 		((glm_${p}vec${n} *)result)->vec = ((glm_${p}vec${n} *)self)->vec ${s} ((glm_${p}vec${n} *)other)->vec;
 	}
@@ -1035,7 +1068,7 @@ $?{type == 'int'
 $??{type == 'float'
 		((glm_${p}vec${n} *)self)->vec ${s}= (float)PyFloat_AsDouble(other);
 $?}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type))
+	else if(1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type))
 		((glm_${p}vec${n} *)self)->vec ${s}= ((glm_${p}vec${n} *)other)->vec;
 $?{not only
 	else if(PyIter_Check(other) || Py_TYPE(other)->tp_iter) {
@@ -1073,7 +1106,7 @@ $??{type == 'float'
 		((glm_${p}vec${n} *)result)->vec = glm::mod(((glm_${p}vec${n} *)self)->vec, (float)PyFloat_AsDouble(other));
 $?}
 	}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
+	else if(1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
 		((glm_${p}vec${n} *)result)->vec = glm::mod(((glm_${p}vec${n} *)self)->vec, ((glm_${p}vec${n} *)other)->vec);
 	}
@@ -1087,7 +1120,7 @@ $?}
 
 static
 PyObject *glm_${p}vec${n}_nb_divmod(PyObject *self, PyObject *other) {
-	if(PyNumber_Check(self) && PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
+	if(PyNumber_Check(self) && 1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
 		PyObject *whole = PyNumber_FloorDivide(self, other);
 	
 		if(whole == NULL)
@@ -1111,7 +1144,7 @@ PyObject *glm_${p}vec${n}_nb_divmod(PyObject *self, PyObject *other) {
 		
 		return result;
 	}
-	else if(!PyNumber_Check(other) && !PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
+	else if(!PyNumber_Check(other) && 1 != PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
 		PyErr_SetString(PyExc_TypeError, "Other must be a number or of the same type.");
 		return NULL;
 	}
@@ -1148,7 +1181,7 @@ $??{type == 'float'
 		((glm_${p}vec${n} *)result)->vec = glm::pow(((glm_${p}vec${n} *)self)->vec, glm::${p}vec${n}((float)PyFloat_AsDouble(other)));
 $?}
 	}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
+	else if(1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
 		((glm_${p}vec${n} *)result)->vec = glm::pow(((glm_${p}vec${n} *)self)->vec, ((glm_${p}vec${n} *)other)->vec);
 	}
@@ -1206,7 +1239,7 @@ $??{type == 'float'
 		((glm_${p}vec${n} *)result)->vec = glm::floor(((glm_${p}vec${n} *)self)->vec / (float)PyFloat_AsDouble(other));
 $?}
 	}
-	else if(PyNumber_Check(self) && PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
+	else if(PyNumber_Check(self) && 1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(other), NULL);
 $?{type == 'int'
 		((glm_${p}vec${n} *)result)->vec = glm::floor((int)PyLong_AsLong(self) / ((glm_${p}vec${n} *)other)->vec);
@@ -1214,7 +1247,7 @@ $??{type == 'float'
 		((glm_${p}vec${n} *)result)->vec = glm::floor((float)PyFloat_AsDouble(self) / ((glm_${p}vec${n} *)other)->vec);
 $?}
 	}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
+	else if(1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
 		result = PyObject_CallObject((PyObject *)Py_TYPE(self), NULL);
 		((glm_${p}vec${n} *)result)->vec = glm::floor(((glm_${p}vec${n} *)self)->vec / ((glm_${p}vec${n} *)other)->vec);
 	}
@@ -1236,7 +1269,7 @@ $?{type == 'int'
 $??{type == 'float'
 		((glm_${p}vec${n} *)self)->vec /= (float)PyFloat_AsDouble(other);
 $?}
-	else if(PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type))
+	else if(1 == PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type))
 		((glm_${p}vec${n} *)self)->vec /= ((glm_${p}vec${n} *)other)->vec;
 	else {
 		PyErr_SetString(PyExc_TypeError, "Must be a number or of the same type.");
@@ -1314,7 +1347,7 @@ $?}
 
 static
 int glm_${p}vec${n}_tp_init(PyObject *self, PyObject *args, PyObject *kwargs) {
-	if(!PyObject_IsInstance(self, (PyObject *)&glm_${p}vec${n}Type)) {
+	if(1 != PyObject_IsInstance(self, (PyObject *)&glm_${p}vec${n}Type)) {
 		PyErr_SetString(PyExc_TypeError, "Can only init ${p}vec${n}.");
 		return -1;
 	}
@@ -1590,7 +1623,35 @@ PyObject *glm_${p}vec${n}_tp_richcompare(PyObject *self, PyObject *other, int op
 	switch(op) {
 /*$ {(('EQ', '=='), ('NE', '!='))} $*/
 		case Py_${I[0]}:
-			if(!PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
+			if(1 != PyObject_IsInstance(other, (PyObject *)&glm_${p}vec${n}Type)) {
+				if((PyIter_Check(other) || Py_TYPE(other)->tp_iter) && PyObject_Size(self) == PyObject_Size(other)) {
+					PyObject *iter = PyObject_GetIter(self);
+					PyObject *itero = PyObject_GetIter(other);
+					PyObject *iteritem;
+					PyObject *iteritemo;
+					
+					if(iter != NULL && itero != NULL) {
+						while(true) {
+							iteritem = PyIter_Next(iter);
+							iteritemo = PyIter_Next(itero);
+						
+							if(iteritem == NULL && iteritemo == NULL) {
+								Py_INCREF(Py_True);
+								return Py_True;
+							}
+						
+							if(iteritem == NULL || iteritemo == NULL || 1 != PyObject_RichCompareBool(iteritem, iteritemo, Py_${I[0]}))
+								break;
+							
+							Py_DECREF(iteritem);
+							Py_DECREF(iteritemo);
+						}
+					}
+					
+					Py_XDECREF(iter);
+					Py_XDECREF(itero);
+				}
+				
 				Py_INCREF(Py_False);
 				return Py_False;
 			}
@@ -1737,7 +1798,7 @@ $?{args
 	
 /*$ {len(args)} $*/
 $?{isinstance(args[I], str)
-	if(!PyObject_IsInstance(argument${I}, (PyObject *)&glm_${args[I]}Type)) {
+	if(1 != PyObject_IsInstance(argument${I}, (PyObject *)&glm_${args[I]}Type)) {
 		std::stringstream ss;
 		ss << "Argument ${I + 1} must be of type '${'glm.' + args[I] if isinstance(args[I], str) else args[I].__name__}' not '" << Py_TYPE(argument${I})->tp_name << "'.";
 		std::string s = ss.str();
