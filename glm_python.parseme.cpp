@@ -274,13 +274,13 @@ $??{type == 'float'
 	NULL,
 $?}
 $?{type == 'int'
-	NULL,
+	(binaryfunc)glm_${p}vec${n}_nb_true_divide,
 $??{type == 'float'
 	(binaryfunc)glm_${p}vec${n}_nb_floor_divide,
 $?}
 	(binaryfunc)glm_${p}vec${n}_nb_true_divide,
 $?{type == 'int'
-	NULL,
+	(binaryfunc)glm_${p}vec${n}_nb_inplace_true_divide,
 $??{type == 'float'
 	(binaryfunc)glm_${p}vec${n}_nb_inplace_floor_divide,
 $?}
