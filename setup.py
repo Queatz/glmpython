@@ -167,13 +167,13 @@ BASETYPEDEF.add(parseme.Round(type = 'Vector', doc = 'This is a basic vector typ
 BASETYPEDEF.add(parseme.Round(type = 'Matrix', doc = 'A matrix.'))
 glmParse.add(BASETYPEDEF)
 
-if glmParse.parse('glm_python.parseme.hpp', 'glm_python.parseme.cpp') > 0:
+if glmParse.parse('python.parseme.hpp', 'python.parseme.cpp') > 0:
 	raise SystemExit
 
 import shutil, os
 from distutils.core import setup, Extension
 
-glm = Extension('glm', sources = ['glm_python.cpp'])
+glm = Extension('glm', sources = ['python.cpp'])
 
 setup(name='glm',
       version='0.9.3',

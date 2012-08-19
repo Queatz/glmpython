@@ -2,6 +2,12 @@
 
 After cloning glm from <https://github.com/Groovounet/glm> cd to the glm direcory and clone this repository.
 
+To use the header file for the C-API, move the parsed python.hpp into the main glm include dir.  For a global glm install it should look like:
+
+```c++
+#include <glm/python.hpp>
+```
+
 The source relies on Parseme being installed.  Get it here:
 https://github.com/Queatz/Parseme
 
