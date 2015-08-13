@@ -173,13 +173,13 @@ if glmParse.parse('python.parseme.hpp', 'python.parseme.cpp') > 0:
 import shutil, os
 from distutils.core import setup, Extension
 
-glm = Extension('glm', sources = ['python.cpp'])
+glm = Extension('glm', sources = ['python.cpp'], include_dirs = ['../'])
 
 setup(name='glm',
       version='0.9.3',
       description='glm',
       author='JacobF | G-Truc Creation',
-      author_email='queatz@gmail.com | glm@g-truc.net',
+      author_email='jacobaferrero@gmail.com | glm@g-truc.net',
       url='http://glm.g-truc.net/',
       ext_modules=[glm]
 )
