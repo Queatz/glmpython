@@ -6,6 +6,8 @@
 
 #include "python.hpp"
 
+namespace glmpython {
+
 /* * * Header * * */
 /*$ MATRIX $*/
 
@@ -1965,4 +1967,6 @@ PyInit_glm()
 /*$ $*/
 	
 	return m;
+}
+
 }

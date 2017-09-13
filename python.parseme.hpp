@@ -2,6 +2,8 @@
 #include <Python.h>
 #include "../glm/glm.hpp"
 
+namespace glmpython {
+
 /* Type Definitions */
 /*$ BASETYPEDEF $*/
 
@@ -40,3 +42,5 @@ typedef struct {
 
 PyObject *glm_${p}mat${n}New(glm::${p}mat${n});
 /*$ $*/
+
+}
